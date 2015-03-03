@@ -15,7 +15,7 @@ class DefaultsMixin(object):
 	paginate_by_param = 'page_size'
 	max_paginate_by = 100
 
-class BlogPostViewSet(viewsets. ModelViewSet):
+class BlogPostViewSet(DefaultsMixin, viewsets.ModelViewSet):
 	queryset = BlogPost.objects.order_by('date')
 	serializer_class = BlogPostSerializer
 
