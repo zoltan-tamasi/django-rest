@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from rest_framework import authentication, permissions, viewsets
 from .models import BlogPost
-from .serializers import BlogPostSerializer
+from .serializers import BlogPostSerializer, UserSerializer
 
 class DefaultsMixin(object): 
 	authentication_classes = (
@@ -9,7 +10,7 @@ class DefaultsMixin(object):
  		authentication.TokenAuthentication,
  	)
 	permission_classes = (
-		permissions. IsAuthenticated,
+		permissions.IsAuthenticated,
  	)
 	paginate_by = 25
 	paginate_by_param = 'page_size'
@@ -18,4 +19,13 @@ class DefaultsMixin(object):
 class BlogPostViewSet(DefaultsMixin, viewsets.ModelViewSet):
 	queryset = BlogPost.objects.order_by('date')
 	serializer_class = BlogPostSerializer
+
+	def perform_create(self, serializer):
+		serializer.save(owner=self.request.user)
+
+class UserViewSet(DefaultsMixin, viewsets.ModelViewSet):
+	queryset = User.objects.order_by('id')
+	serializer_class = UserSerializer
+
+	
 
