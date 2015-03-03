@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import authentication, permissions, viewsets
 from .models import BlogPost
 from .serializers import BlogPostSerializer, UserSerializer
+from .permissions import IsOwner
 
 class DefaultsMixin(object): 
 	authentication_classes = (
@@ -11,6 +12,7 @@ class DefaultsMixin(object):
  	)
 	permission_classes = (
 		permissions.IsAuthenticated,
+		IsOwner
  	)
 	paginate_by = 25
 	paginate_by_param = 'page_size'
