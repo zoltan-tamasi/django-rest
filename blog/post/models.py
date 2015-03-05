@@ -6,3 +6,13 @@ class BlogPost(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	text = models.TextField()
 
+	def __str__(self):
+		return 'Post #{}: {}'.format(self.pk, self.text if len(self.text) < 40 else self.text[:40] + '...')
+
+
+class Authority(models.Model):
+	user = models.ForeignKey('auth.User', related_name='author')
+	blogpost = models.ForeignKey(BlogPost, related_name='blogpost')
+
+	def __str__(self):
+		return 'Authority: {} authors post #{}'.format(self.user.username, self.blogpost.pk)
