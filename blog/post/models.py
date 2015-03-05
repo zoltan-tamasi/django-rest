@@ -13,6 +13,9 @@ class BlogPost(models.Model):
 class Authority(models.Model):
 	user = models.ForeignKey('auth.User', related_name='author')
 	blogpost = models.ForeignKey(BlogPost, related_name='blogpost')
+        
+	class Meta:
+		verbose_name_plural = "authorities"
 
 	def __str__(self):
 		return 'Authority: {} authors post #{}'.format(self.user.username, self.blogpost.pk)
